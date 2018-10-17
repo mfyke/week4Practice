@@ -26,16 +26,17 @@ function Character(name, hp, attack, counterAttack, imgSrc) {
 }
 
 $( document ).ready(function() {
-    startGame();
+	availableCharacters=allCharacters;
+    displayAvail();
 });
 
 // display available characters
-var startGame = function() {
-	availableCharacters=allCharacters;
+var displayAvail = function() {
+	$("#charSelectArea").empty();
 	availableCharacters.forEach(function(character){
-		var badge = $("<div>").attr("id", character.name);
-		var characterImage = $("<img>").attr("src", character.imgSrc).attr("onClick", "selectChar()");
-		var badgeText = $("<h2>").text("Name: " + character.name + " HP: " + character.hp + " Attack Power: " + character.attack + " Counter Attack: " + character.counterAttack);
+		var badge = $("<div>").addClass("col-xs-3").addClass("avail");
+		var characterImage = $("<img>").attr("id", character.name).attr("src", character.imgSrc).attr("onClick", "selectChar(this)");
+		var badgeText = $("<p>").text("Name: " + character.name + " HP: " + character.hp + " Attack Power: " + character.attack + " Counter Attack: " + character.counterAttack);
 		$(characterImage).appendTo(badge);
 		$(badgeText).appendTo(badge);
 		$(badge).appendTo("#charSelectArea");	
@@ -43,6 +44,19 @@ var startGame = function() {
 }
 
 // pick character remove selected character from the selection zone and move it to the attacker spot
+var selectChar = function(element) {
+	console.log(element.id);
+	console.log(allCharacters.indexOf(attacker));
+	for (var i = 0; i<availableCharacters.length; i++) {console.log(availableCharacters[i].name);
+		if (availableCharacters[i].name==element.id && allCharacters.indexOf(attacker)<0) {
+			attacker=availableCharacters[i];
+			console.log(attacker);
+		}
+		else if (availableCharacters[i].name==element.id) {
+			defender=availableCharacters[i];
+		}
+	}
+}
 
 // pick defender char and move it to the defnder area & hide selection zone
 
